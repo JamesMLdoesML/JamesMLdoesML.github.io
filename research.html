@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Research agenda and selected publications by James Ming Liang Ang.">
+<title>Research · James Ming Liang Ang</title>
+<script>try { if (localStorage.getItem("theme") === "dark") document.documentElement.dataset.theme = "dark"; } catch {}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital@0;1&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<div class="wrap">
+  <div class="page">
+    <div class="top-controls">
+      <div class="language-switch" role="group" aria-label="Page language style">
+        <button type="button" data-language="english" aria-pressed="true">English</button>
+        <button type="button" data-language="singlish" aria-pressed="false">Singlish</button>
+      </div>
+      <label class="theme-switch"><span>Dark mode</span><input class="theme-toggle" type="checkbox" role="switch"><span class="theme-track" aria-hidden="true"><span class="theme-knob"></span></span></label>
+    </div>
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a class="home-link" href="index.html">James Ming Liang Ang</a>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="research.html" aria-current="page" data-english="Research" data-singlish="Die die must try">Research</a></li>
+        <li><a href="writing.html" data-english="Writing" data-singlish="Le kua simi?">Writing</a></li>
+        <li><a href="about.html" data-english="About" data-singlish="For kaypoh people">About</a></li>
+      </ul>
+    </nav>
+    <header class="subpage-title">
+      <p class="eyebrow">James Ming Liang Ang</p>
+      <h1 data-english="Research" data-singlish="Die die must try">Research</h1>
+      <p class="description">How learning occurs in neural networks, and how understanding that process can help us design better learning algorithms.</p>
+    </header>
+  </div>
+
+  <article>
+    <div class="row">
+      <h2>How does learning occur in neural networks?</h2>
+      <p>Neural networks learn through sequences of local parameter updates, yet those updates can produce representations and behaviours that generalize far beyond the training data. I study the dynamics of this process: how optimization algorithms, training data geometry, and model architecture interact during training; which properties emerge at different stages; and which mechanisms persist across models and scales. The aim is to move beyond describing a trained model towards explaining the process that produced it.</p>
+    </div>
+
+    <div class="row">
+      <h2>How can we design better learning algorithms?</h2>
+      <p>Understanding learning should help us design algorithms, not merely diagnose them after the fact. I am interested in deriving training rules from principles—particularly Bayesian inference, optimization, and information geometry—so that we can explain why an update works and extend it systematically.</p>
+      <p><b>Case study: variance reduction as posterior correction.</b> Stochastic variance-reduced gradient methods such as SVRG speed up training by correcting each mini-batch gradient with a full-batch gradient computed at an older iterate. With Nico Daheim, Thomas Möllenhoff, and Emtiyaz Khan, I showed that SVRG can be derived as a special case of Bayesian posterior correction <a class="cite" href="#ref-1">[1]</a>. In variational form, the update reads</p>
+      <div class="eq" role="math" aria-label="q in is replaced by q in to the power one minus eta, times q-hat out to the power eta, times the exponential of minus eta N times the difference between the site functions at in and at out.">
+        <span class="body"><i>q</i><sub>in</sub> ← <i>q</i><sub>in</sub><sup>1−<i>η</i></sup> <i>q̂</i><sub>out</sub><sup><i>η</i></sup> exp( −<i>ηN</i> [ <i>ℓ̂</i><sub><i>i</i>|in</sub> − <i>ℓ̂</i><sub><i>i</i>|out</sub> ] ),</span>
+        <span class="no">(1)</span>
+      </div>
+      <p>where the site functions <span class="m">ℓ̂</span> are linear surrogates of each example’s loss at the current and stored posteriors. Choosing an isotropic Gaussian for <span class="m">q</span> and removing its sampling noise recovers SVRG exactly. Richer exponential families then yield new algorithms: a Newton-like variant that corrects Hessians as well as gradients, and an Adam-like variant built on the IVON optimizer, which we test on GPT-2 pretraining and fine-tuning.</p>
+      <aside>Posterior correction was proposed by <b>Khan (2025)</b> as a single mechanism behind knowledge-adaptation methods such as continual learning and model merging. It was not designed with variance reduction in mind.</aside>
+    </div>
+
+    <div class="row sec"><h2>Selected Publications</h2></div>
+    <div class="row">
+      <ol class="refs">
+        <li id="ref-1">
+          <span class="t"><a href="https://arxiv.org/abs/2512.01930">SVRG and Beyond via Posterior Correction</a></span>
+          <span class="a">N. Daheim, T. Möllenhoff, M. L. Ang, M. E. Khan</span>
+          <span class="v">International Conference on Machine Learning (ICML), 2026. Oral. <a href="https://arxiv.org/abs/2512.01930">arXiv:2512.01930</a></span>
+        </li>
+        <li>
+          <span class="t"><a href="https://icml.cc/virtual/2026/77493">Explanation in an Emerging Science of Large Language Models</a></span>
+          <span class="a">J. M. L. Ang</span>
+          <span class="v">ICML 2026 Workshop, Philosophy Meets Machine Learning: What Counts as Trustworthy?</span>
+        </li>
+      </ol>
+    </div>
+  </article>
+</div>
+
+<footer class="appendix"><div class="wrap"><div class="row"><div><h3>Navigate</h3><p><a href="index.html">Home</a> · <a href="writing.html">Writing</a> · <a href="about.html">About</a></p><h3>Elsewhere</h3><p><a href="https://scholar.google.com/citations?user=hepV8W8AAAAJ&amp;hl=en">Google Scholar</a> · <a href="https://github.com/MLdoesML">GitHub</a></p></div></div></div></footer>
+<script src="assets/site.js"></script>
+</body>
+</html>
