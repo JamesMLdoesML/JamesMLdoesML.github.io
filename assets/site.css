@@ -118,6 +118,22 @@ h3 { font-size: 18px; font-weight: 700; line-height: 1.4; color: var(--strong); 
 .essay-link:hover { color: var(--link); }
 .writing-index-item { padding-bottom: 2.2rem; border-bottom: 1px solid var(--hair); }
 .writing-index-item h2 { margin-top: 0; border-bottom: 0; padding-bottom: 0; }
+.writing-page { padding-top: 18px; }
+.writing-section { padding-block: 14px 22px; }
+.section-heading { padding-bottom: 0.35rem; }
+.section-heading .essay-meta { margin-bottom: 0.25rem; }
+.section-heading h2 { margin: 0; border-bottom: 0; padding-bottom: 0; font-size: 1.05rem; letter-spacing: 0.01em; }
+.pinned-writing { padding-bottom: 2.4rem; border-bottom: 1px solid var(--hair); }
+.pinned-writing h2 { margin-top: 1.65rem; }
+.writing-more[hidden] { display: none; }
+.show-more-button { display: inline-flex; align-items: center; gap: 0.55rem; appearance: none; margin-top: 0.35rem; padding: 0; border: 0; background: transparent; color: var(--link); font: inherit; font-size: 0.92em; font-weight: 650; line-height: 1.4; cursor: pointer; }
+.show-more-button:hover { text-decoration: underline; text-underline-offset: 2px; }
+.show-more-button:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
+.show-more-icon { font-size: 1.1em; line-height: 1; }
+.essays-section { margin-top: 1.3rem; padding-top: 2.3rem; border-top: 1px solid var(--hair-strong); }
+.essays-section .writing-index-item { padding-top: 1.9rem; }
+.margin-quote p { margin-bottom: 0.65em; font-family: var(--math); font-size: 1.02em; font-style: italic; }
+.margin-quote cite { display: block; color: var(--quiet); font-size: 0.88em; font-style: normal; }
 .article-meta { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; margin: 0; color: var(--quiet); font-size: 0.82rem; }
 .article-meta span + span::before { content: "·"; margin-right: 1.5rem; }
 .article-body > p:first-child::first-letter { float: left; margin: 0.12em 0.09em 0 0; color: var(--strong); font-family: var(--math); font-size: 4.1em; line-height: 0.72; }
@@ -125,6 +141,9 @@ h3 { font-size: 18px; font-weight: 700; line-height: 1.4; color: var(--strong); 
 aside { font-size: 12.5px; line-height: 1.5; color: var(--muted); margin: 0 0 1.2em; }
 @media (min-width: 1024px) { aside { font-size: 13px; } }
 aside b { color: var(--strong); font-weight: 600; }
+@media (min-width: 1080px) {
+  .pinned-writing > .margin-quote { grid-row: 2 / span 20; padding-top: 0.15rem; }
+}
 @media (max-width: 1079px) { aside { border-left: 2px solid var(--hair); padding-left: 14px; } }
 
 .cite { font-size: 0.8em; vertical-align: 0.12em; white-space: nowrap; }
@@ -175,6 +194,8 @@ ul.teach .role { display: block; color: var(--quiet); font-size: 0.92em; }
   .eq { justify-content: flex-start; }
   .eq .body { margin-left: 0; }
   ul.teach li { grid-template-columns: minmax(0, 1fr); }
+  .writing-page { padding-top: 12px; }
+  .essays-section { margin-top: 0.6rem; }
 }
 
 @media (max-width: 460px) {
