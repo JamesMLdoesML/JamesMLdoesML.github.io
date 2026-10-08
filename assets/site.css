@@ -50,7 +50,7 @@ body {
   .row { max-width: 984px; display: grid; grid-template-columns: 648px 1fr; column-gap: 48px; padding-left: 168px; }
   .row > * { grid-column: 1; }
   .row > aside { grid-column: 2; grid-row: 1 / span 20; align-self: start; padding-top: 4px; }
-  .row > aside.margin-note { grid-row: auto; }
+  .row > aside.margin-note { grid-row: auto; height: 0; overflow: visible; }
   .title-block, .byline, .site-nav, .subpage-title { padding-left: 168px; }
 }
 
