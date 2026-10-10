@@ -7,10 +7,16 @@
       <circle cx="41" cy="31" r="12"/>
       <circle cx="32" cy="48" r="12"/>
     </g>
-    <g fill="#fff" opacity=".22">
-      <circle cx="19" cy="27" r="3"/>
-      <circle cx="37" cy="27" r="3"/>
-      <circle cx="28" cy="44" r="3"/>
+    <g fill="none" stroke="#fff" stroke-width="2" stroke-linecap="square" opacity=".36">
+      <g transform="rotate(30 19 27)">
+        <path d="M19 23.5v7M16.5 26h5"/>
+      </g>
+      <g transform="rotate(30 37 27)">
+        <path d="M37 23.5v7M34.5 26h5"/>
+      </g>
+      <g transform="rotate(30 28 44)">
+        <path d="M28 40.5v7M25.5 43h5"/>
+      </g>
     </g>
   </g>
 </svg>
