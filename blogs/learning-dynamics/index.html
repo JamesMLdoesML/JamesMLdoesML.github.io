@@ -231,7 +231,10 @@ window.MathJax = {
       <section aria-labelledby="rescaling-symmetry">
         <h3 id="rescaling-symmetry">2.1. Key Observation: The network has rescaling symmetry</h3>
         <p>Consider multiplying one weight by \(\lambda\) and dividing the other by \(\lambda\):</p>
-        <div class="tutorial-equation">\[(a,b)\longmapsto\left(\lambda a,\frac{b}{\lambda}\right),\qquad \lambda&gt;0.\]</div>
+        <div class="margin-annotated nonlinear-symmetry-note">
+          <div class="tutorial-equation">\[(a,b)\longmapsto\left(\lambda a,\frac{b}{\lambda}\right),\qquad \lambda&gt;0.\]</div>
+          <aside class="margin-note"><p><strong>Beyond linear networks.</strong> ReLU has this positive-scaling property (with a kink at zero). Standard SwiGLU and GeGLU blocks also admit it: rescale the linear branch and inversely rescale the output weights, keeping the gate fixed. SiLU and GELU themselves are not homogeneous. Such gated blocks appear in LLM feed-forward networks: GeGLU in <a href="https://github.com/google/gemma_pytorch/blob/main/gemma/model.py">Gemma</a>, and a modified SwiGLU in <a href="https://github.com/openai/gpt-oss/blob/main/gpt_oss/torch/model.py">GPT-OSS</a>.<sup><a href="#fn-activation-clamping" id="fnref-activation-clamping" role="doc-noteref" aria-label="Footnote 1: activation clamping">1</a></sup></p></aside>
+        </div>
         <div class="margin-annotated">
           <p>The product \(ab\) does not change, so neither does the network’s output or its loss. In other words, we can increase the magnitude of one layer’s weight and compensate by decreasing the other’s, without changing the function the network computes. This simple symmetry has far-reaching consequences.</p>
           <aside class="margin-note"><p>If you are a physicist, this should remind you of gauge invariance.</p></aside>
@@ -252,7 +255,7 @@ window.MathJax = {
         <div class="tutorial-equation">\[\frac{d}{dt}(a^2-b^2)=2a\dot a-2b\dot b=-2\left(a\frac{\partial L_{\mathcal{D}}}{\partial a}-b\frac{\partial L_{\mathcal{D}}}{\partial b}\right)=0.\]</div>
 </div>
 <blockquote class="tutorial-note">
-  <p><strong>Going deeper.</strong> The same argument extends to ReLU networks because \(\operatorname{ReLU}(\lambda z)=\lambda\operatorname{ReLU}(z)\) for \(\lambda&gt;0\). Scaling a hidden unit’s incoming weights (and bias, if present) by \(\lambda\), and its outgoing weights by \(1/\lambda\), leaves the network’s output unchanged. Under ordinary gradient flow without regularisation, the squared norm of the incoming parameters minus the squared norm of the outgoing weights is conserved. <a href="#ref-kunin-2021">Kunin et al. (2021)</a> study these connections between symmetry and conservation laws, and how practical training choices can break them.</p>
+  <p><strong>Going deeper.</strong> The same argument applies to networks with nonlinear activations, provided the network retains this rescaling symmetry and the loss is differentiable with respect to the parameters. Under ordinary gradient flow without regularisation, differentiating the symmetry gives a conserved difference between the squared norms of the two groups of parameters being rescaled. Nonlinearity itself is no obstacle: the key ingredients are symmetry and differentiability. <a href="#ref-kunin-2021">Kunin et al. (2021)</a> study these connections between symmetry and conservation laws, and how practical training choices can break them.</p>
 </blockquote>
 </details>
 
@@ -360,6 +363,10 @@ window.MathJax = {
         <aside class="margin-note"><p><strong>Critical slowing down.</strong> As \(\gamma\to\tfrac12\), the gradient-flow relaxation timescale diverges. At the critical point, convergence is algebraic rather than exponential. Finite-duration simulations therefore cannot resolve the boundary arbitrarily closely; the sharp boundary here uses the analytic prediction.</p></aside>
       </div>
       <p>As the decay strength crosses a critical value, the learned output shrinks to zero and the network stops fitting \(y=x\). The decay strength plays a role rather like temperature in a material: changing one control parameter can change the system’s qualitative behaviour. At greater depth, the transition becomes even more striking. The tutorial leads you through both results. This is a glimpse of how much structure this small model contains. I hope you will find it a useful starting point for your own exploration of training dynamics. Till next time<span class="terminal-cursor" aria-hidden="true"></span></p>
+    </section>
+    <section class="row" aria-labelledby="footnotes-heading" role="doc-endnotes">
+      <h2 id="footnotes-heading">Footnotes</h2>
+      <p id="fn-activation-clamping"><sup>1</sup> GPT-OSS and <a href="https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/5254448103b6254fc646dacbca1cbbf20e9216c1/inference/model.py">DeepSeek-V4.1</a> clamp branch values, possibly for numerical stability. Fixed clipping thresholds on the rescaled branch break the exact symmetry; GPT-OSS also adds an offset. <a href="#fnref-activation-clamping" role="doc-backlink" aria-label="Back to activation clamping footnote marker">↩</a></p>
     </section>
     <section class="row" aria-labelledby="notes-references">
       <h2 id="notes-references">References</h2>
