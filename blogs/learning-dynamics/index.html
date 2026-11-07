@@ -291,9 +291,12 @@ window.MathJax = {
 </details>
         <p>Putting everything together, we can draw the diagram below. This is called a <strong>phase portrait</strong>: it shows the training trajectories and their long-term outcomes for our simple learning problem. The picture thus makes the implicit bias visible.</p>
       </section>
+      <div class="margin-annotated">
       <figure class="learning-outcomes-figure">
         <img src="images/learning-dynamics-phase-portrait.png" alt="Phase portrait of gradient flow for y = abx: trajectories above a = -b reach positive solutions on ab = 1; those below reach negative solutions; trajectories on a = -b flow into the saddle at the origin." width="1640" height="1720" loading="lazy">
       </figure>
+      <aside class="margin-note"><p>This phase portrait was originally derived and shown in Figure 2 of <a href="https://arxiv.org/pdf/1312.6120" title="Exact solutions to the nonlinear dynamics of learning in deep linear neural networks">Saxe, McClelland &amp; Ganguli (2014)</a>.</p></aside>
+      </div>
       <p>Each point in the diagram represents a pair of weights \((a,b)\). By choosing an initialisation and following the arrows, we can see how the gradient flow moves the weights, with each trajectory constrained by \(a^2-b^2=c\). The black curves mark \(ab=1\), where the loss is zero and training is stationary.</p>
       <p>The colours show which branch training reaches. Initialisations in the blue region, where \(a_0+b_0&gt;0\), converge to positive weights; those in the orange region, where \(a_0+b_0&lt;0\), converge to negative weights. Both branches compute the same function, \(f(x)=x\). The red line \(a=-b\) separates these regions: its arrows lead towards the origin, where learning fails. A start arbitrarily close to this line, but not exactly on it, eventually reaches a zero-loss solution.</p>
      </section>
