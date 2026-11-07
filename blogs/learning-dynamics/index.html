@@ -241,7 +241,6 @@ window.MathJax = {
           </div>
           <div class="symmetry-margin-notes">
             <aside class="margin-note"><p><strong>Beyond linear networks.</strong> ReLU has this positive-scaling property (with a kink at zero). Standard SwiGLU and GeGLU blocks also admit it: rescale the linear branch and inversely rescale the output weights, keeping the gate fixed. SiLU and GELU themselves are not homogeneous. Such gated blocks appear in LLM feed-forward networks: GeGLU in <a href="https://github.com/google/gemma_pytorch/blob/main/gemma/model.py">Gemma</a>, and a modified SwiGLU in <a href="https://github.com/openai/gpt-oss/blob/main/gpt_oss/torch/model.py">GPT-OSS</a>.<sup><a href="#fn-activation-clamping" id="fnref-activation-clamping" role="doc-noteref" aria-label="Footnote 1: activation clamping">1</a></sup></p></aside>
-            <aside class="margin-note"><p>If you are a physicist, this should remind you of gauge invariance.</p></aside>
           </div>
         </div>
 <details class="tutorial-solution narrative-calculation">
