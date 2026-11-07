@@ -278,7 +278,10 @@ aside b { color: var(--strong); font-weight: 600; }
 @media (min-width: 1080px) {
   .margin-annotated { position: relative; }
   .margin-annotated > .margin-note { position: absolute; left: calc(100% + 48px); top: 0; width: 120px; }
-  .nonlinear-symmetry-note > .margin-note { left: auto; right: calc(100% + 48px); }
+  .symmetry-with-notes { display: grid; grid-template-columns: minmax(0, 1fr) 120px; column-gap: 48px; width: calc(100% + 168px); align-items: start; }
+  .symmetry-content { min-width: 0; }
+  .symmetry-margin-notes { padding-top: 1.5em; }
+  .symmetry-margin-notes > .margin-note { position: static; margin-bottom: 24px; }
   .phase-portrait-annotated > .margin-note { top: 50%; transform: translateY(-50%); margin: 0; }
   .phase-portrait-annotated > .margin-note p { margin: 0; }
 }

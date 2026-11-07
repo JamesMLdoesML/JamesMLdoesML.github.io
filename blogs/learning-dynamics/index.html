@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital@0;1&display=swap">
-<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="../../assets/site.css?v=20261107-margin-notes">
 <script>
 window.MathJax = {
   loader: { load: ['[tex]/html'] },
@@ -231,17 +231,19 @@ window.MathJax = {
       <section aria-labelledby="rescaling-symmetry">
         <h3 id="rescaling-symmetry">2.1. Key Observation: The network has rescaling symmetry</h3>
         <p>Consider multiplying one weight by \(\lambda\) and dividing the other by \(\lambda\):</p>
-        <div class="margin-annotated nonlinear-symmetry-note">
+        <div class="symmetry-with-notes">
+          <div class="symmetry-content">
           <div class="tutorial-equation">\[(a,b)\longmapsto\left(\lambda a,\frac{b}{\lambda}\right),\qquad \lambda&gt;0.\]</div>
-          <aside class="margin-note"><p><strong>Beyond linear networks.</strong> ReLU has this positive-scaling property (with a kink at zero). Standard SwiGLU and GeGLU blocks also admit it: rescale the linear branch and inversely rescale the output weights, keeping the gate fixed. SiLU and GELU themselves are not homogeneous. Such gated blocks appear in LLM feed-forward networks: GeGLU in <a href="https://github.com/google/gemma_pytorch/blob/main/gemma/model.py">Gemma</a>, and a modified SwiGLU in <a href="https://github.com/openai/gpt-oss/blob/main/gpt_oss/torch/model.py">GPT-OSS</a>.<sup><a href="#fn-activation-clamping" id="fnref-activation-clamping" role="doc-noteref" aria-label="Footnote 1: activation clamping">1</a></sup></p></aside>
-        </div>
-        <div class="margin-annotated">
           <p>The product \(ab\) does not change, so neither does the network’s output or its loss. In other words, we can increase the magnitude of one layer’s weight and compensate by decreasing the other’s, without changing the function the network computes. This simple symmetry has far-reaching consequences.</p>
-          <aside class="margin-note"><p>If you are a physicist, this should remind you of gauge invariance.</p></aside>
-        </div>
         <p>In particular, it implies a conservation law. <strong>The difference between the squared weights is conserved</strong>:</p>
         <div class="tutorial-equation">\[a(t)^2-b(t)^2=a(0)^2-b(0)^2.\]</div>
         <p>The weights can change, but this measure of their imbalance stays fixed at its initial value.</p>
+          </div>
+          <div class="symmetry-margin-notes">
+            <aside class="margin-note"><p><strong>Beyond linear networks.</strong> ReLU has this positive-scaling property (with a kink at zero). Standard SwiGLU and GeGLU blocks also admit it: rescale the linear branch and inversely rescale the output weights, keeping the gate fixed. SiLU and GELU themselves are not homogeneous. Such gated blocks appear in LLM feed-forward networks: GeGLU in <a href="https://github.com/google/gemma_pytorch/blob/main/gemma/model.py">Gemma</a>, and a modified SwiGLU in <a href="https://github.com/openai/gpt-oss/blob/main/gpt_oss/torch/model.py">GPT-OSS</a>.<sup><a href="#fn-activation-clamping" id="fnref-activation-clamping" role="doc-noteref" aria-label="Footnote 1: activation clamping">1</a></sup></p></aside>
+            <aside class="margin-note"><p>If you are a physicist, this should remind you of gauge invariance.</p></aside>
+          </div>
+        </div>
 <details class="tutorial-solution narrative-calculation">
 <summary>Show why rescaling symmetry gives a conserved quantity</summary>
 <div class="solution-body">
@@ -249,8 +251,10 @@ window.MathJax = {
         <div class="margin-annotated partial-differentiation-note">
           <div class="tutorial-equation">\[\left.\frac{d}{d\lambda}L_{\mathcal{D}}\!\left(\lambda a,\frac{b}{\lambda}\right)\right|_{\lambda=1}=a\frac{\partial L_{\mathcal{D}}}{\partial a}-b\frac{\partial L_{\mathcal{D}}}{\partial b}=0.\]</div>
           <aside class="margin-note partial-differentiation-aside"><p><strong>Partial differentiation.</strong> When a function depends on several variables, differentiate with respect to one while holding the others fixed. Here, \(\partial L_{\mathcal{D}}/\partial a\) tells us how the loss changes as \(a\) varies, treating \(b\) as a constant.</p></aside>
-          <aside class="margin-note"><p>Physicists often differentiate a continuous symmetry at the identity to expose its infinitesimal constraint—the starting move in many symmetry arguments, including the famous Noether’s theorem.</p></aside>
         </div>
+        <blockquote class="tutorial-note">
+          <p><strong>A connection to Noether’s theorem.</strong> Physicists often differentiate a continuous symmetry at the identity to expose its infinitesimal constraint—the starting move in many symmetry arguments, including the famous Noether’s theorem.</p>
+        </blockquote>
         <p>Under gradient flow, \(\dot a=-\partial L_{\mathcal{D}}/\partial a\) and \(\dot b=-\partial L_{\mathcal{D}}/\partial b\), so we get</p>
         <div class="tutorial-equation">\[\frac{d}{dt}(a^2-b^2)=2a\dot a-2b\dot b=-2\left(a\frac{\partial L_{\mathcal{D}}}{\partial a}-b\frac{\partial L_{\mathcal{D}}}{\partial b}\right)=0.\]</div>
 </div>
