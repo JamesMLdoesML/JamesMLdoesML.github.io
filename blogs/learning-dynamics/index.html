@@ -367,6 +367,10 @@ window.MathJax = {
       </div>
       <p>As the decay strength crosses a critical value, the learned output shrinks to zero and the network stops fitting \(y=x\). The decay strength plays a role rather like temperature in a material: changing one control parameter can change the system’s qualitative behaviour. At greater depth, the transition becomes even more striking. The tutorial leads you through both results. This is a glimpse of how much structure this small model contains. I hope you will find it a useful starting point for your own exploration of training dynamics. Till next time<span class="terminal-cursor" aria-hidden="true"></span></p>
     </section>
+    <section class="row" aria-labelledby="follow-up-reading">
+      <h2 id="follow-up-reading">Follow-up reading</h2>
+      <p>How does training unfold when we move from two scalar weights to a toy attention mechanism? My friend Fan Pu explores this question in his <a href="https://fanpu.io/blog/2026/toy-attention-learning-dynamics/">sister post on the learning dynamics of toy attention models</a>.</p>
+    </section>
     <section class="row" aria-labelledby="footnotes-heading" role="doc-endnotes">
       <h2 id="footnotes-heading">Footnotes</h2>
       <p id="fn-activation-clamping"><sup>1</sup> GPT-OSS and <a href="https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/5254448103b6254fc646dacbca1cbbf20e9216c1/inference/model.py">DeepSeek-V4.1</a> clamp branch values, possibly for numerical stability. Fixed clipping thresholds on the rescaled branch break the exact symmetry; GPT-OSS also adds an offset. <a href="#fnref-activation-clamping" role="doc-backlink" aria-label="Back to activation clamping footnote marker">↩</a></p>
