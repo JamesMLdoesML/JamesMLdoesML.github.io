@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>Blog · James Ming Liang Ang</title>
+    <link>https://jamesmldoesml.github.io/blogs/</link>
+    <description>Primers and essays by James Ming Liang Ang.</description>
+    <language>en</language>
+    <atom:link href="https://jamesmldoesml.github.io/blogs/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Training Dynamics</title>
+      <link>https://jamesmldoesml.github.io/blogs/learning-dynamics/</link>
+      <guid isPermaLink="true">https://jamesmldoesml.github.io/blogs/learning-dynamics/</guid>
+      <description>Training Dynamics. A taster by James Ming Liang Ang.</description>
+      <pubDate>Fri, 16 Oct 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>The 4th step</title>
+      <link>https://jamesmldoesml.github.io/blogs/the-fourth-step/</link>
+      <guid isPermaLink="true">https://jamesmldoesml.github.io/blogs/the-fourth-step/</guid>
+      <description>Reflections on AI, mathematical problem solving, and what becomes possible when we look beyond the proof.</description>
+      <pubDate>Mon, 12 Oct 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Towards a frontier-level scientific ecosystem in Singapore — Part I</title>
+      <link>https://jamesmldoesml.github.io/blogs/frontier-scientific-ecosystem-singapore/</link>
+      <guid isPermaLink="true">https://jamesmldoesml.github.io/blogs/frontier-scientific-ecosystem-singapore/</guid>
+      <description>Reflections on scientific values and the institutions Singapore needs to build a frontier-level research ecosystem.</description>
+      <pubDate>Wed, 07 Oct 2026 00:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>

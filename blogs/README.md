@@ -13,5 +13,9 @@ images, sources and downloads together. Shared styles, scripts and favicon are
 in `../assets/`. Series labels come from `../data/series.json`; run
 `python3 scripts/build.py` from the root after editing them.
 
+The build generates `rss.xml` from published articles. To include a new article,
+set its `article:published_time` (ISO 8601), `og:title`, description and canonical
+URL in the page head. Run the build and commit the regenerated feed with the article.
+
 Clean URLs end in `/`. Legacy `.html` files preserve old links. See the
 [editing guide](../docs/structure.md) for build and verification details.

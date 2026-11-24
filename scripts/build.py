@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
-"""Synchronize series labels, generate the sitemap, and stage public files."""
+"""Synchronize series labels, generate the sitemap and RSS feed, and stage public files."""
 import argparse
+from datetime import datetime, timezone
+from email.utils import format_datetime
 import html
+from html.parser import HTMLParser
 import json
 from pathlib import Path
 import re
@@ -12,6 +15,23 @@ from xml.etree import ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 ORIGIN = "https://jamesmldoesml.github.io"
+FEED_PATH = "blogs/rss.xml"
+ATOM_NS = "http://www.w3.org/2005/Atom"
+
+
+class ArticleMetadata(HTMLParser):
+    def __init__(self, source):
+        super().__init__()
+        self.metadata = {}
+        self.canonical = None
+        self.feed(source.split("</head>", 1)[0])
+
+    def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
+        if tag == "meta" and "content" in attrs:
+            self.metadata[attrs.get("property") or attrs.get("name")] = attrs["content"]
+        if tag == "link" and attrs.get("rel") == "canonical":
+            self.canonical = attrs.get("href")
 
 
 def pages():
@@ -77,6 +97,53 @@ def sitemap():
     (ROOT / "sitemap.xml").write_bytes(ET.tostring(tree, encoding="utf-8", xml_declaration=True))
 
 
+def rss(check=False):
+    ET.register_namespace("atom", ATOM_NS)
+    tree = ET.Element("rss", version="2.0")
+    channel = ET.SubElement(tree, "channel")
+    ET.SubElement(channel, "title").text = "Blog · James Ming Liang Ang"
+    ET.SubElement(channel, "link").text = f"{ORIGIN}/blogs/"
+    ET.SubElement(channel, "description").text = "Primers and essays by James Ming Liang Ang."
+    ET.SubElement(channel, "language").text = "en"
+    ET.SubElement(channel, f"{{{ATOM_NS}}}link", href=f"{ORIGIN}/{FEED_PATH}",
+                  rel="self", type="application/rss+xml")
+
+    entries = []
+    for path in sorted(ROOT.glob("blogs/*/index.html")):
+        article = ArticleMetadata(path.read_text(encoding="utf-8"))
+        published = article.metadata.get("article:published_time")
+        if published is None:
+            continue
+        title = article.metadata.get("og:title")
+        description = article.metadata.get("description")
+        if not (article.canonical and title and description):
+            raise SystemExit(f"{path.relative_to(ROOT)}: RSS requires a canonical URL, og:title and description")
+        try:
+            date = datetime.fromisoformat(published)
+        except ValueError:
+            raise SystemExit(f"{path.relative_to(ROOT)}: invalid article:published_time {published!r}") from None
+        if date.tzinfo is None:
+            date = date.replace(tzinfo=timezone.utc)
+        entries.append((date, article.canonical, title, description))
+
+    for date, url, title, description in sorted(entries, reverse=True):
+        item = ET.SubElement(channel, "item")
+        ET.SubElement(item, "title").text = title
+        ET.SubElement(item, "link").text = url
+        ET.SubElement(item, "guid", isPermaLink="true").text = url
+        ET.SubElement(item, "description").text = description
+        ET.SubElement(item, "pubDate").text = format_datetime(date.astimezone(timezone.utc), usegmt=True)
+
+    ET.indent(tree)
+    contents = ET.tostring(tree, encoding="utf-8", xml_declaration=True) + b"\n"
+    target = ROOT / FEED_PATH
+    if check:
+        if not target.is_file() or target.read_bytes() != contents:
+            raise SystemExit(f"Run python3 scripts/build.py to regenerate {FEED_PATH}")
+    else:
+        target.write_bytes(contents)
+
+
 def stage():
     destination = ROOT / "dist"
     # Stage into a new folder first; replace only the generated deployment copy.
@@ -84,7 +151,7 @@ def stage():
     if staging.exists():
         shutil.rmtree(staging)
     staging.mkdir(parents=True)
-    for path in [*pages(), ROOT / "sitemap.xml", ROOT / ".nojekyll"]:
+    for path in [*pages(), ROOT / "sitemap.xml", ROOT / FEED_PATH, ROOT / ".nojekyll"]:
         target = staging / path.relative_to(ROOT)
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(path, target)
@@ -109,10 +176,11 @@ def stage():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--check", action="store_true", help="Check catalog synchronization without writing files")
+    parser.add_argument("--check", action="store_true", help="Check catalog and RSS freshness without writing files")
     args = parser.parse_args()
     synchronize(args.check)
+    rss(args.check)
     if not args.check:
         sitemap()
         stage()
-        print("Built dist/; series labels and sitemap synchronized.")
+        print("Built dist/; series labels, sitemap and RSS feed synchronized.")
